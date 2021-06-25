@@ -11,18 +11,33 @@
 %   Leonel Silva, a21230602@isec.pt
 
 function images = readImagesFolder(filepath, scale)
-    % Find out how many images to read
-    files = dir(filepath);
+    % Check if folder exists
+    if (~isdir(filepath))
+        errorMessage = sprintf('Error\nThe following folder does not exist:\n%s', filepath);
+        uiwait(warndlg(errorMessage));
+        return;
+    end
+
+    %% Find out how many images to read
+    files = natsortfiles(dir(filepath));
     files = files(~ismember({files.name}, {'.','..'}));
     size = length(files);
-    images = cell(size, 1);
+    images = cell(1, size);
     
-    % Read all images to matrix
+    %% Read all images to matrix
     for k = 1 : size
-        images{k} = imread(fullfile(filepath, files(k).name));
+        image = imread(fullfile(filepath, files(k).name));
+        image = imbinarize(image);
         
+        %% Scale image if scale is 
         if(scale ~= 1)
-            images{k} = imresize(images{k}, scale);
+            image = imresize(image, scale);
         end
+        
+        %% Convert matrix to single column vector
+        image = reshape(image, [], 1);
+        
+        % Save image to images array
+        images = repmat(image, 1, k);
     end
 end
