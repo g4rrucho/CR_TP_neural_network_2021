@@ -22,12 +22,11 @@ function images = readImagesFolder(filepath, scale)
     files = natsortfiles(dir(filepath));
     files = files(~ismember({files.name}, {'.','..'}));
     size = length(files);
-    images = cell(1, size);
+    images = zeros(1, size);
     
     %% Read all images to matrix
     for k = 1 : size
-        image = imread(fullfile(filepath, files(k).name));
-        image = imbinarize(image);
+        image = imbinarize(imread(fullfile(filepath, files(k).name)));
         
         %% Scale image if scale is 
         if(scale ~= 1)
