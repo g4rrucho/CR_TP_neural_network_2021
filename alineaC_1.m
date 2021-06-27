@@ -9,14 +9,30 @@ images = readImagesFolder('./Pasta3/', 0.01);
 for i = 0:9
     for j = 1:4
         arr = zeros(1, 10);
-        arr(i + 1) = 1;
+        arr(10 - i) = 1;
         arr = reshape(arr, 1, []);
-        imagesTarget(:, j + i * 10) = arr;
+        imagesTarget(:, j + i * 4) = arr;
     end
 end
 
-%% Obter a rede neuronal com melhor qualidade
-net = getNeuronalNetwork();
+%% Obter a rede neuronal com melhor qualidade, caso ainda nao exista
+if(~isfile('alineaC_1.mat'))
+    net = getNeuralNetwork();
+    save('alineaC_1.mat');
+else
+    load('alineaC_1.mat');
+    
+    net.trainFcn = 'trainlm';
+    net.trainParam.epochs = 100;
+
+    net.layers{1}.transferFcn = 'tansig'; % Hidden layer 1
+    net.layers{2}.transferFcn = 'tansig'; % Hidden layer 2
+    net.layers{3}.transferFcn = 'purelin'; % Output layer
+    net.divideFcn = 'dividerand';
+    net.divideParam.trainRatio = 0.7;
+    net.divideParam.valRatio = 0.15;
+    net.divideParam.testRatio =  0.15;
+end
 
 %% Simulate
 out = sim(net, images);

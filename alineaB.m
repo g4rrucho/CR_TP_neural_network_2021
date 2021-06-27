@@ -23,8 +23,9 @@ net.trainParam.epochs = 100;
 
 net.layers{1}.transferFcn = 'purelin';
 net.layers{2}.transferFcn = 'purelin';
+
 net.divideFcn = 'dividerand';
-net.divideParam.trainRatio = 0.7    ;
+net.divideParam.trainRatio = 0.7;
 net.divideParam.valRatio = 0.15;
 net.divideParam.testRatio =  0.15;
 
