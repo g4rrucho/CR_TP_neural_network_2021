@@ -22,7 +22,7 @@ function images = readImagesFolder(filepath, scale)
     files = natsortfiles(dir(filepath));
     files = files(~ismember({files.name}, {'.','..'}));
     size = length(files);
-    images = zeros(1, size);
+    images = [];
     
     %% Read all images to matrix
     for k = 1 : size
@@ -34,9 +34,6 @@ function images = readImagesFolder(filepath, scale)
         end
         
         %% Convert matrix to single column vector
-        image = reshape(image, [], 1);
-        
-        % Save image to images array
-        images = repmat(image, 1, k);
+        images(:, k) = reshape(image, 1, []);
     end
 end
