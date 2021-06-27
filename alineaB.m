@@ -1,5 +1,5 @@
 %% Clear all vars
-clear all
+clear
 clc
 
 %% Get images
