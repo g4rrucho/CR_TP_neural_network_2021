@@ -26,13 +26,13 @@ net.divideParam.testRatio = 0;
 %% Let's test it
 out = sim(net, images);
 
-%% Show results
+%% Show performance
 plotconfusion(imagesTarget, out)
 plotperf(tr)
 
 %% Calculate and show classifications percentages 
 r = 0;
-for i=1:size(out,1)
+for i=1:size(out,2)
     [a b] = max(out(:,i));
     [c d] = max(imagesTarget(:,i));
     if b == d
@@ -43,22 +43,22 @@ end
 accuracy = r/size(out,2)*100;
 fprintf('Precisao total de treino %f\n', accuracy)
 
-%% Simular apenas o conjunto de teste
-tImages = images(:, tr.testInd);
-tImagesTarget = imagesTarget(:, tr.testInd);
-
-tOut = sim(net, tImages);
-plotconfusion(imagesTarget, out)
-
-%% Calcular a percentagem de classificações corretas no conjunto
-r = 0;
-for i = 1 : size(tr.testInd, 2)
-    [a b] = max(tOut(:, i));
-    [c d] = max(tImagesTarget(:, i));
-    if b == d
-        r = r + 1;
-    end
-end
-
-tAccuracy = r/size(tr.testInd, 2) * 100;
-fprintf('Precisao teste %f\n', accuracy)
+% %% Simular apenas o conjunto de teste
+% tImages = images(:, tr.testInd);
+% tImagesTarget = imagesTarget(:, tr.testInd);
+% 
+% tOut = sim(net, tImages);
+% plotconfusion(tImagesTarget, tOut)
+% 
+% %% Calcular a percentagem de classificações corretas no conjunto
+% r = 0;
+% for i = 1 : size(tr.testInd, 2)
+%     [a b] = max(tOut(:, i));
+%     [c d] = max(tImagesTarget(:, i));
+%     if b == d
+%         r = r + 1;
+%     end
+% end
+% 
+% tAccuracy = r/size(tr.testInd, 2) * 100;
+% fprintf('Precisao teste %f\n', accuracy)
