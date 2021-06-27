@@ -7,7 +7,7 @@ images = readImagesFolder('./Pasta3/', 0.01);
 
 %% Prepare images target array
 for i = 0:9
-    for j = 1:10
+    for j = 1:4
         arr = zeros(1, 10);
         arr(i + 1) = 1;
         arr = reshape(arr, 1, []);
