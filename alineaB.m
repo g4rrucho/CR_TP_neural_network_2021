@@ -9,20 +9,21 @@ images = readImagesFolder('./Pasta2/', 0.01);
 for i = 0:9
     for j = 1:10
         arr = zeros(1, 10);
-        arr(i + 1) = 1;
+        arr(10 - i) = 1;
         arr = reshape(arr, 1, []);
         imagesTarget(:, j + i * 10) = arr;
     end
 end
 
 %% Criar a rede neuronal
-net = feedforwardnet(10);
+net = feedforwardnet([20,20]);
 
 net.trainFcn = 'trainlm';
 net.trainParam.epochs = 100;
 
-net.layers{1}.transferFcn = 'purelin';
-net.layers{2}.transferFcn = 'purelin';
+net.layers{1}.transferFcn = 'tansig';
+net.layers{2}.transferFcn = 'tansig';
+net.layers{3}.transferFcn = 'purelin';
 
 net.divideFcn = 'dividerand';
 net.divideParam.trainRatio = 0.7;
