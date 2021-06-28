@@ -30,27 +30,27 @@ if(~isfile(filename))
 
     % Truncate images targets
     target  = eye(10);
-    for i = 1 : 10
+    for i = 1 : 10 % pasta 1
         imagesTarget(:, i) = target(:, i);
     end
 
-    for i = 0:9
+    for i = 0:9 % pasta 2
         for j = 1:10
             arr = zeros(1, 10);
-            arr(i + 1) = 1;
+            arr(10 - i) = 1;
             arr = reshape(arr, 1, []);
             target(:, j + i * 10) = arr;
         end
     end
 
-    for i = 11 : 110
+    for i = 11 : 110 % pasta 3
         imagesTarget(:,i) = target(:, i - 10);
     end
 
     for i = 0:9
         for j = 1:4
             arr = zeros(1, 10);
-            arr(10 - i) = 1;
+            arr(i + 1) = 1;
             arr = reshape(arr, 1, []);
             target(:, j + i * 4) = arr;
         end
@@ -61,7 +61,7 @@ if(~isfile(filename))
     end
     
     %% Treinar rede neuronal
-    net = feedforwardnet([5,5]);
+    net = feedforwardnet([20,20]);
     net = train(net, images, imagesTarget);
     
     net.layers{1}.transferFcn = 'tansig';
@@ -83,7 +83,7 @@ else
 end
 
 %% TODO Mudar a pasta a testar: 1, 2, 3 -> pasta1, pasta2, pasta3
-folder = 1;
+folder = 3;
 
 switch folder
     case 1
@@ -100,7 +100,7 @@ switch folder
         for i = 0:9
             for j = 1:10
                 arr = zeros(1, 10);
-                arr(i + 1) = 1;
+                arr(10 - i) = 1;
                 arr = reshape(arr, 1, []);
                 imagesTarget(:, j + i * 10) = arr;
             end
@@ -114,7 +114,7 @@ switch folder
         for i = 0:9
             for j = 1:4
                 arr = zeros(1, 10);
-                arr(10 - i) = 1;
+                arr(i + 1) = 1;
                 arr = reshape(arr, 1, []);
                 imagesTarget(:, j + i * 4) = arr;
             end
